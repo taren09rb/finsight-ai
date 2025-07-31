@@ -1,0 +1,8 @@
+# ==============================================================================
+# FILE: requirements.txt
+# This file lists the Python libraries your project needs.
+# ==============================================================================
+
+Flask
+requests
+gunicorn
