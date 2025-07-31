@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSight - Stock Analysis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gradient-to-br from-stone-50 to-slate-100 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">FinSight</h1>
+            <p class="text-slate-500 mt-2">An interactive dashboard to explore financial data and price trends.</p>
+        </header>
+
+        <div class="search-section mb-8 max-w-lg mx-auto">
+            <div class="relative">
+                <input type="text" id="ticker-input" class="w-full pl-4 pr-20 py-3 border-2 border-slate-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition" placeholder="Enter stock ticker (e.g., MSFT, NVDA)...">
+                <button id="search-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-sky-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-sky-700 transition-colors">Analyze</button>
+            </div>
+        </div>
+
+        <div id="loading-indicator" class="hidden justify-center items-center my-16">
+            <div class="loader"></div>
+            <p class="ml-4 text-slate-500">Fetching latest data...</p>
+        </div>
+        
+        <div id="error-message" class="hidden text-center my-16 bg-red-100 text-red-700 p-4 rounded-lg max-w-xl mx-auto"></div>
+
+        <main id="main-content" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div id="chart-header" class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                         <div class="mb-4 sm:mb-0">
+                            <h2 id="chart-title" class="text-2xl font-bold text-slate-900"></h2>
+                            <p id="chart-subtitle" class="text-slate-500"></p>
+                        </div>
+                        <div id="time-range-selector" class="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg">
+                             <button class="time-btn" data-range="1M">1M</button>
+                             <button class="time-btn" data-range="6M">6M</button>
+                             <button class="time-btn bg-white text-sky-700" data-range="1Y">1Y</button>
+                             <button class="time-btn" data-range="5Y">5Y</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                </div>
+
+                <aside class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div id="info-panel">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-1" id="company-name"></h3>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-6 my-6">
+                            <div class="info-item">
+                                <span class="text-sm text-slate-500">Market Cap</span>
+                                <strong class="text-lg" id="market-cap"></strong>
+                            </div>
+                            <div class="info-item">
+                                <span class="text-sm text-slate-500">Sector</span>
+                                <strong class="text-lg" id="sector"></strong>
+                            </div>
+                             <div class="info-item">
+                                <span class="text-sm text-slate-500">P/E Ratio</span>
+                                <strong class="text-lg" id="pe-ratio"></strong>
+                            </div>
+                            <div class="info-item">
+                                <span class="text-sm text-slate-500">52 Week High</span>
+                                <strong class="text-lg" id="52-week-high"></strong>
+                            </div>
+                        </div>
+
+                        <h4 class="font-semibold text-slate-800 mt-8 mb-2 border-t pt-6">About the Company</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed max-h-80 overflow-y-auto" id="company-summary"></p>
+                    </div>
+                </aside>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-12 py-6 border-t border-slate-200">
+             <p class="text-sm text-slate-500">Data provided by Alpha Vantage. Not for financial advice.</p>
+             <p class="text-xs text-slate-400 mt-1">Miyapur, Telangana, India | Thursday, July 31, 2025</p>
+        </footer>
+
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
